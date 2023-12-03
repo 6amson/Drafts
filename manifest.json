@@ -1,9 +1,23 @@
 {
-    "name": "Hello Extensions",
-    "description": "Base Level Extension",
-    "version": "1.0",
-    "manifest_version": 3,
-    "action": {
-      "default_popup": "hello.html"
-    }
+  "name": "Drafts",
+  "description": "Saves highlights from websites and extract SEO metatags",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "click to open"
+  },
+  "icons": {
+    "16": "images/favicon-16x16.png",
+    "32": "images/favicon-32x32.png"
+  },
+  "permissions": [
+    "sidePanel"
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
   }
+}
