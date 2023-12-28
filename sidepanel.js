@@ -1,5 +1,5 @@
 const mainContent = document.getElementById('main--content');
-let isAuth = false;
+let isAuth = true;
 
 
 function postReq(postInput = {}, path = '') {
@@ -68,10 +68,119 @@ function getReq(jwtToken = '', path = '') {
         });
 }
 
+function displayElement (element = HTMLElement.prototype) {
+    console.log(element);
+    if(element.style.visibility !== 'hidden'){
+        element.style.visibility = "hidden";
+        if(element.style.position !== 'absolute'){
+            element.style.position == 'absolute';
+        }
+    }else{
+        element.style.visibility = "visible";
+    }
+}
+
 // const result = getData();
 
 if (isAuth) {
-    mainContent.innerHTML = 'auth yes!';
+    // mainContent.innerHTML = 'auth yes!';
+    mainContent.style.marginTop = "220px";
+
+    var bodyElement = document.body;
+    const BodyDiv = mainContent.parentNode;
+    const user = document.getElementById('header');
+    const userImg = document.getElementById('logoImg');
+    const logoText = document.getElementById('logoText');
+    const draftOption = document.getElementById('draftOption');
+    const drafTagsContainer = document.getElementById('drafTagsContainer');
+    const moreOptionDiv = document.getElementById('moreOption--div');
+    // user.style.background = 'black';
+    user.style.position = "absolute";
+    user.style.top = '0px';
+    user.style.left = "0px";
+    user.style.height = "40px";
+    user.style.background = "#2c2c2c";
+    userImg.style.width = "30px";
+    userImg.style.height = "20px";
+    userImg.style.position = 'relative';
+    userImg.style.top = '25%';
+    userImg.style.left = '15px';
+    logoText.style.display = "block";
+    draftOption.style.position = "absolute";
+    // draftOption.style.paddingTop = '10px';
+    draftOption.style.top = '40px';
+    draftOption.style.left = "0px";
+    draftOption.style.height = "44px";
+    draftOption.style.background = 'white';
+    draftOption.style.borderBottom = 'solid #D9D9D9 1px';
+    mainContent.style.overflowY = "auto";
+    mainContent.style.marginLeft = '-12px'
+    mainContent.style.marginRight = "-12px"
+    mainContent.style.height = "370px";
+
+
+    let draftOptionContent = `
+    <p id="draftOption--topic">Projects</pv>
+    <p id="draftOption--seo">Seo</p>
+    `
+
+    let drafTagsContainerContent  = `
+    <div id="drafTagsChild">
+    <p>
+        Change projects
+    </p>
+    <image src='./images/arrowDown.png'></image>
+    </div>
+    <div id="drafTagsChild">
+    <p>
+        Add tags
+    </p>
+    <div><span>+</span></div>
+    </div>
+    <div id="projectTitle">
+    <image id="folderIcon" src="./images/folderIcon.png"></image>
+    <p>Exploring furniture for Interior</p>
+    </div>
+    `
+
+    let mainContentInner = `
+    <div id="draft--children--div">
+    <p id="draft--children--topic">Pine trees are great for furniture and the creation ...</p>
+    <div id="draft--children">
+        <div id="draft--children1">
+            <image id="tagIcon" src='./images/tagFinal.png'></image>
+            <p>Introduction</p>
+        </div>
+        <div>
+            <image id="moreIcon" src="./images/menu-dotsIcon.png"></image>
+        </div>
+        <div>
+            <image id="linkIcon" src="./images/linkIcon.png"></image>
+        </div>
+    </div>
+    <div class="time--ago">
+        <image id="timeIcon" src="./images/time-quarterIcon.png"></image>
+        <p>Created 57 min ago.</p>
+    </div>
+    </div>
+    <div id="moreOption--div">
+    <div id="moreOption--div1">
+        <image id="penIcon" src="./images/penIcon.png"></image>
+        <p>Manage Notes</p>
+    </div>
+    <div id="moreOption--div2">
+        <image id="tagIcon2" src="./images/tagFinal.png"></image>
+        <p>Manage Tags</p>
+    </div>
+    </div>
+    ` 
+
+    draftOption.innerHTML = draftOptionContent;
+    drafTagsContainer.innerHTML = drafTagsContainerContent;
+    mainContent.innerHTML = mainContentInner
+
+    document.getElementById('moreIcon').addEventListener('click', displayElement(moreOptionDiv));
+
 }
 else {
 
@@ -92,8 +201,8 @@ else {
         <span class="material-symbols-outlined password--icon">
             lock
         </span>
-        <button style="display: block; margin-bottom: 1.9375rem; color: white;">Signup with Gmail</button>
-        <button id="signup--button" type="submit" style="color: #CEFF17; margin-bottom: 1.5rem;">Create account</button>
+        <button style="display: block; margin-bottom: 1.9375rem; color: white;">Create account</button>
+        <button id="signup--button" type="submit" style="color: #CEFF17; margin-bottom: 1.5rem;">Signup with Gmail</button>
     </form>
     <hr style="width: 280px; margin-bottom: .9375rem;">
     <div class="signup--footer">
@@ -110,12 +219,17 @@ else {
 
 
 
-    function setLoginTemplate(data = {error: ''}) {
+    function setLoginTemplate(data = { error: '' }) {
+
+        console.log({ dataError: data.error });
+
+        //check the error property to toggle error display on pages.
+
 
         let signinContent = `
         <h1 class="signup--header">Welcome back,</h1>
         <p class="signup--para">Login to create drafts, manage tags and projects </p>
-        <p class="signup--error">${data.error}</p>
+        <p class="signup--error" id="signup--error">${data.error}</p>
         <form>
             <input placeholder="Email" type="text" name="email" />
             <span class="material-symbols-outlined mail--icon--login">
@@ -126,8 +240,8 @@ else {
                 lock
             </span>
             <div id='login--button--parent'>
-            <button id="login--gmail--button" style="display: block; margin-bottom: 1.9375rem; color: white;">Login with Gmail</button>
-            <button id="login--button" type="submit" style="color: #CEFF17; margin-bottom: 1.5rem;">Login</button>
+            <button id="login--gmail--button" style="display: block; margin-bottom: 1.9375rem; color: white;">Login</button>
+            <button id="login--button" type="submit" style="color: #CEFF17; margin-bottom: 1.5rem;">Login with Gmail</button>
             </div>
             <hr style="width: 280px; margin-bottom: .9375rem;">
         </form>
@@ -141,11 +255,11 @@ else {
         </div>
         `
 
-        function setSignupTemplate(data = {error: ''}) {
+        function setSignupTemplate(data = { error: '' }) {
             let signupContent = `
             <h1 class="signup--header">Create an account</h1>
             <p class="signup--para">Create an account to effectively manage your written projects and start add drafts</p>
-            <p class="signup--error">${data.error}</p>
+            <p class="signup--error" id="signup--error">${data.error}</p>
             <form>
                 <input placeholder="Username" type="text" name="username" maxlength="10" />
                 <span class="material-symbols-outlined person--icon">
@@ -159,8 +273,8 @@ else {
                 <span class="material-symbols-outlined password--icon">
                     lock
                 </span>
-                <button style="display: block; margin-bottom: 1.9375rem; color: white;">Signup with Gmail</button>
-                <button id="signup--button" type="submit" style="color: #CEFF17; margin-bottom: 1.5rem;">Create account</button>
+                <button style="display: block; margin-bottom: 1.9375rem; color: white;">Create account</button>
+                <button id="signup--button" type="submit" style="color: #CEFF17; margin-bottom: 1.5rem;">Signup with Gmail</button>
             </form>
             <hr style="width: 280px; margin-bottom: .9375rem;">
             <div class="signup--footer">
@@ -175,11 +289,19 @@ else {
 
             mainContent.innerHTML = signupContent;
 
+            if (data.error == undefined) {
+                document.getElementById("signup--error").style.display = "none";
+            }
+
             document.getElementById('signin--prompt').addEventListener('click', setLoginTemplate);
 
         }
 
         mainContent.innerHTML = signinContent;
+
+        if (data.error == undefined) {
+            document.getElementById("signup--error").style.display = "none";
+        }
 
         document.getElementById('login--button').addEventListener('click', function (e) {
             e.preventDefault();
@@ -191,10 +313,12 @@ else {
 
         document.getElementById('signup--prompt').addEventListener('click', setSignupTemplate);
     }
+
+    document.getElementById('signin--prompt').addEventListener('click', setLoginTemplate);
+
 }
 
 
-document.getElementById('signin--prompt').addEventListener('click', setLoginTemplate);
 
 
 // console.log(event.target.id, event)
@@ -239,71 +363,71 @@ document.getElementById('signin--prompt').addEventListener('click', setLoginTemp
 //     return;
 // }
 
-    // mainContent.innerHTML = '';
-    // var header1 = document.createElement("h1");
-    // var signupPara = document.createElement("p");
-    // var signupError = document.createElement("p");
-    // var form = document.createElement("form");
-    // var inputEmail = document.createElement('input');
-    // var inputPassword = document.createElement('input');
-    // var mailSpan = document.createElement('span');
-    // var passwordSpan = document.createElement('span');
-    // var loginGmailButton = document.createElement('button');
-    // var loginButton = document.createElement('button');
-    // var  separator = document.createElement('hr')
+// mainContent.innerHTML = '';
+// var header1 = document.createElement("h1");
+// var signupPara = document.createElement("p");
+// var signupError = document.createElement("p");
+// var form = document.createElement("form");
+// var inputEmail = document.createElement('input');
+// var inputPassword = document.createElement('input');
+// var mailSpan = document.createElement('span');
+// var passwordSpan = document.createElement('span');
+// var loginGmailButton = document.createElement('button');
+// var loginButton = document.createElement('button');
+// var  separator = document.createElement('hr')
 
-    // header1.setAttribute("class", "login--header")
-    // header1.setAttribute("id", "login--header")
-    // signupPara.setAttribute("class", "signup--para")
-    // signupError.setAttribute("class", "signup--error")
-    // inputEmail.setAttribute('type', 'text');
-    // inputEmail.setAttribute('placeholder', 'Email');
-    // inputEmail.setAttribute('name', 'Email');
-    // mailSpan.setAttribute('class', 'material-symbols-outlined mail--icon--login');
-    // inputPassword.setAttribute('type', 'text');
-    // inputPassword.setAttribute('placeholder', 'Password');
-    // inputPassword.setAttribute('name', 'Password');
-    // passwordSpan.setAttribute('class', 'material-symbols-outlined password--icon--login');
-    // loginButton.setAttribute('id', 'login--button');
-    // loginGmailButton.setAttribute('id', 'login--gmail--button');
-    // loginButton.setAttribute('type', 'submit');
+// header1.setAttribute("class", "login--header")
+// header1.setAttribute("id", "login--header")
+// signupPara.setAttribute("class", "signup--para")
+// signupError.setAttribute("class", "signup--error")
+// inputEmail.setAttribute('type', 'text');
+// inputEmail.setAttribute('placeholder', 'Email');
+// inputEmail.setAttribute('name', 'Email');
+// mailSpan.setAttribute('class', 'material-symbols-outlined mail--icon--login');
+// inputPassword.setAttribute('type', 'text');
+// inputPassword.setAttribute('placeholder', 'Password');
+// inputPassword.setAttribute('name', 'Password');
+// passwordSpan.setAttribute('class', 'material-symbols-outlined password--icon--login');
+// loginButton.setAttribute('id', 'login--button');
+// loginGmailButton.setAttribute('id', 'login--gmail--button');
+// loginButton.setAttribute('type', 'submit');
 
 
-    // var header_text = document.createTextNode("Welcome back,");
-    // var signupPara_text = document.createTextNode("Login to create drafts, manage tags and projects")
-    // var header_text = document.createTextNode("Welcome back,");
-    // var mailSpan_text = document.createTextNode("mail");
-    // var passwordSpan_text = document.createTextNode("lock");
-    // var loginGmailButton_text = document.createTextNode('Login with Gmail');
-    // var loginButton_text = document.createTextNode('Login');
+// var header_text = document.createTextNode("Welcome back,");
+// var signupPara_text = document.createTextNode("Login to create drafts, manage tags and projects")
+// var header_text = document.createTextNode("Welcome back,");
+// var mailSpan_text = document.createTextNode("mail");
+// var passwordSpan_text = document.createTextNode("lock");
+// var loginGmailButton_text = document.createTextNode('Login with Gmail');
+// var loginButton_text = document.createTextNode('Login');
 
-    // header1.appendChild(header_text);
-    // signupPara.appendChild(signupPara_text);
-    // mailSpan.appendChild(mailSpan_text);
-    // passwordSpan.appendChild(passwordSpan_text);
-    // loginGmailButton.appendChild(loginGmailButton_text);
-    // loginButton.appendChild(loginButton_text);
-    // loginGmailButton.style.display = 'block'
-    // loginGmailButton.style.marginBottom = "1.9375rem";
-    // loginGmailButton.style.color = "white";
-    // loginButton.style.color = '#CEFF17';
-    // loginButton.style.marginBottom = "1.5rem";
-    // separator.style.width = '280px';
-    // separator.style.marginBottom = '.9375rem';
+// header1.appendChild(header_text);
+// signupPara.appendChild(signupPara_text);
+// mailSpan.appendChild(mailSpan_text);
+// passwordSpan.appendChild(passwordSpan_text);
+// loginGmailButton.appendChild(loginGmailButton_text);
+// loginButton.appendChild(loginButton_text);
+// loginGmailButton.style.display = 'block'
+// loginGmailButton.style.marginBottom = "1.9375rem";
+// loginGmailButton.style.color = "white";
+// loginButton.style.color = '#CEFF17';
+// loginButton.style.marginBottom = "1.5rem";
+// separator.style.width = '280px';
+// separator.style.marginBottom = '.9375rem';
 
-    // // type="submit" style="color: #CEFF17; margin-bottom: 1.5rem;
+// // type="submit" style="color: #CEFF17; margin-bottom: 1.5rem;
 
-    // mainContent.appendChild(header1)
-    // mainContent.appendChild(signupPara);
-    // mainContent.appendChild(signupError);
-    // mainContent.appendChild(form);
-    // mainContent.appendChild(separator);
-    // form.appendChild(inputEmail);
-    // form.appendChild(mailSpan);
-    // form.appendChild(inputPassword)
-    // form.appendChild(passwordSpan);
-    // form.appendChild(loginGmailButton);
-    // form.appendChild(loginButton);
+// mainContent.appendChild(header1)
+// mainContent.appendChild(signupPara);
+// mainContent.appendChild(signupError);
+// mainContent.appendChild(form);
+// mainContent.appendChild(separator);
+// form.appendChild(inputEmail);
+// form.appendChild(mailSpan);
+// form.appendChild(inputPassword)
+// form.appendChild(passwordSpan);
+// form.appendChild(loginGmailButton);
+// form.appendChild(loginButton);
 
 
 

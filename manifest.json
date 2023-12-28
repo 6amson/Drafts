@@ -14,7 +14,7 @@
     "sidePanel"
   ],
   "side_panel": {
-    "default_path": "sidepanel.html"
+    "default_path": "index.html"
   },
   "background": {
     "service_worker": "service-worker.js",
