@@ -68,21 +68,24 @@ function getReq(jwtToken = '', path = '') {
         });
 }
 
-function displayElement (element = HTMLElement.prototype) {
+function displayElement(element = HTMLElement.prototype) {
     console.log(element);
-    if(element.style.visibility !== 'hidden'){
-        element.style.visibility = "hidden";
-        if(element.style.position !== 'absolute'){
-            element.style.position == 'absolute';
-        }
-    }else{
-        element.style.visibility = "visible";
+    if (element.style.display == '' || element.style.display == "block" || element.style.display == "flex") {
+        element.style.display = "none";
+        alert('display')
+        // if (element.style.position !== 'absolute') {
+        //     element.style.position = 'absolute';
+        // }
+    } else if (element.style.display == "none") {
+        element.style.display = "block";
+        alert('none')
     }
 }
 
 // const result = getData();
 
 if (isAuth) {
+
     // mainContent.innerHTML = 'auth yes!';
     mainContent.style.marginTop = "220px";
 
@@ -92,8 +95,9 @@ if (isAuth) {
     const userImg = document.getElementById('logoImg');
     const logoText = document.getElementById('logoText');
     const draftOption = document.getElementById('draftOption');
+    const moreOptionDiv = document.getElementById('moreOptionDiv');
+    const draftOptionTopic = document.getElementById('draftOption--topic');
     const drafTagsContainer = document.getElementById('drafTagsContainer');
-    const moreOptionDiv = document.getElementById('moreOption--div');
     // user.style.background = 'black';
     user.style.position = "absolute";
     user.style.top = '0px';
@@ -118,16 +122,27 @@ if (isAuth) {
     mainContent.style.marginRight = "-12px"
     mainContent.style.height = "370px";
 
+    let moreOptionContent = `
+    <div id="moreOption--div1">
+        <image id="penIcon" src="./images/penIcon.png"></image>
+        <p>Manage Notes</p>
+    </div>
+    <div id="moreOption--div2">
+        <image id="tagIcon2" src="./images/tagFinal.png"></image>
+        <p>Manage Tags</p>
+    </div>
+    `
 
     let draftOptionContent = `
-    <p id="draftOption--topic">Projects</pv>
+    <div id='option--select--underline'></div>
+    <p id="draftOption--topic">Projects</p>
     <p id="draftOption--seo">Seo</p>
     `
 
-    let drafTagsContainerContent  = `
+    let drafTagsContainerContent = `
     <div id="drafTagsChild">
     <p>
-        Change projects
+        Manage projects
     </p>
     <image src='./images/arrowDown.png'></image>
     </div>
@@ -151,7 +166,7 @@ if (isAuth) {
             <image id="tagIcon" src='./images/tagFinal.png'></image>
             <p>Introduction</p>
         </div>
-        <div>
+        <div id="moreIconDiv">
             <image id="moreIcon" src="./images/menu-dotsIcon.png"></image>
         </div>
         <div>
@@ -163,23 +178,44 @@ if (isAuth) {
         <p>Created 57 min ago.</p>
     </div>
     </div>
-    <div id="moreOption--div">
-    <div id="moreOption--div1">
-        <image id="penIcon" src="./images/penIcon.png"></image>
-        <p>Manage Notes</p>
-    </div>
-    <div id="moreOption--div2">
-        <image id="tagIcon2" src="./images/tagFinal.png"></image>
-        <p>Manage Tags</p>
-    </div>
-    </div>
-    ` 
+    `
+
 
     draftOption.innerHTML = draftOptionContent;
     drafTagsContainer.innerHTML = drafTagsContainerContent;
-    mainContent.innerHTML = mainContentInner
+    mainContent.innerHTML = mainContentInner;
+    mainContent.append(moreOptionDiv);
+    moreOptionDiv.innerHTML = moreOptionContent;
 
-    document.getElementById('moreIcon').addEventListener('click', displayElement(moreOptionDiv));
+
+    document.getElementById('moreIcon').addEventListener('click', function () {
+        if (moreOptionDiv.style.display == "block" || moreOptionDiv.style.display == "flex") {
+            moreOptionDiv.style.opacity = "0"; 
+            moreOptionDiv.style.display = "none";
+            moreOptionDiv.style.transition = "display .2s ease, opacity 1s ease";
+
+        } else if (moreOptionDiv.style.display == "none" || moreOptionDiv.style.display == '') {
+            moreOptionDiv.style.display = "block";
+            moreOptionDiv.style.opacity = "1"; 
+            moreOptionDiv.style.transition = "display .2s ease, opacity 1s ease-in";
+        }
+    });
+
+    document.getElementById('draftOption--topic').addEventListener('click', function () {
+        if (document.getElementById('option--select--underline').style.left == "93px") {
+            document.getElementById('option--select--underline').style.transition = "left .3s ease, width .3s ease";
+            document.getElementById('option--select--underline').style.left = "17px";
+            document.getElementById('option--select--underline').style.width = "60px";
+        }
+    });
+
+    document.getElementById('draftOption--seo').addEventListener('click', function () {
+        if (document.getElementById('option--select--underline').style.left == "17px" || document.getElementById('option--select--underline').style.left == "") {
+            document.getElementById('option--select--underline').style.transition = "left .3s ease, width .3s ease";
+            document.getElementById('option--select--underline').style.left = "93px";
+            document.getElementById('option--select--underline').style.width = "40px";
+        }
+    });
 
 }
 else {
