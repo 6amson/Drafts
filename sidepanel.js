@@ -94,6 +94,7 @@ if (isAuth) {
     const user = document.getElementById('header');
     const userImg = document.getElementById('logoImg');
     const logoText = document.getElementById('logoText');
+    const tagsDiv = document.getElementById('tagsDiv');
     const draftOption = document.getElementById('draftOption');
     const moreOptionDiv = document.getElementById('moreOptionDiv');
     const draftOptionTopic = document.getElementById('draftOption--topic');
@@ -164,7 +165,7 @@ if (isAuth) {
     <div id="draft--children">
         <div id="draft--children1">
             <image id="tagIcon" src='./images/tagFinal.png'></image>
-            <p>Introduction</p>
+            <p id="tagPara"></p>
         </div>
         <div id="moreIconDiv">
             <image id="moreIcon" src="./images/menu-dotsIcon.png"></image>
@@ -181,22 +182,26 @@ if (isAuth) {
     `
 
 
+
     draftOption.innerHTML = draftOptionContent;
     drafTagsContainer.innerHTML = drafTagsContainerContent;
     mainContent.innerHTML = mainContentInner;
     mainContent.append(moreOptionDiv);
     moreOptionDiv.innerHTML = moreOptionContent;
 
+    const tagsList = ['Introduction', 'Body', 'Abstract', 'Title', 'Call to Action', 'Literature review', 'Methodology', 'Results', 'Discussions', 'Table of content', 'Acknowledgements', 'References', 'Conclusion', '⛔'];
+
 
     document.getElementById('moreIcon').addEventListener('click', function () {
         if (moreOptionDiv.style.display == "block" || moreOptionDiv.style.display == "flex") {
-            moreOptionDiv.style.opacity = "0"; 
+            moreOptionDiv.style.opacity = "0";
             moreOptionDiv.style.display = "none";
             moreOptionDiv.style.transition = "display .2s ease, opacity 1s ease";
+            tagsDiv.style.display = "none";
 
         } else if (moreOptionDiv.style.display == "none" || moreOptionDiv.style.display == '') {
             moreOptionDiv.style.display = "block";
-            moreOptionDiv.style.opacity = "1"; 
+            moreOptionDiv.style.opacity = "1";
             moreOptionDiv.style.transition = "display .2s ease, opacity 1s ease-in";
         }
     });
@@ -216,6 +221,75 @@ if (isAuth) {
             document.getElementById('option--select--underline').style.width = "40px";
         }
     });
+
+    document.addEventListener("click", function (event) {
+        var target = event.target;
+        if (target !== document.getElementById('moreIcon') && !moreOptionDiv.contains(target)) {
+            moreOptionDiv.style.display = "none";
+            tagsDiv.style.display = "none";
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.getElementById('tagPara').textContent == "No tag selected" || document.getElementById('tagPara').textContent == "") {
+            document.getElementById('draft--children1').style.display = "none";
+        }
+    });
+
+    document.getElementById('moreOption--div1').addEventListener('click', function () {
+
+        alert('more notes')
+    });
+
+    document.getElementById('moreOption--div2').addEventListener('click', function () {
+
+
+        if (tagsDiv.style.display = "none") {
+
+            tagsDiv.innerHTML = '';
+            const listChildTitle = document.createElement("div");
+            listChildTitle.setAttribute('id', 'listChildTitleDiv');
+            listChildTitle.innerText = "Select a tag";
+
+            tagsDiv.style.display = "block";
+            moreOptionDiv.append(tagsDiv);
+            tagsDiv.append(listChildTitle);
+
+            tagsList.forEach(tag => {
+                const listChild = document.createElement("p");
+                listChild.innerText = tag;
+                tagsDiv.append(listChild);
+                moreOptionDiv.append(tagsDiv);
+
+                listChild.addEventListener('click', function () {
+                    const tagTitle = listChild.textContent;
+                    console.log(tagTitle);
+                    if (tagTitle == '⛔') {
+                        document.getElementById('tagPara').textContent = "No tag selected";
+                        document.getElementById('tagPara').style.opacity = 0.5;
+                    } else {
+                        document.getElementById('draft--children1').style.display = "flex";
+                        document.getElementById('tagPara').textContent = tagTitle;
+                        document.getElementById('tagPara').style.opacity = 1;
+                    }
+                    document.getElementById('draft--children1').append(document.getElementById('tagPara'))
+                    tagsDiv.style.display = "none";
+                    // tagsDiv.removeChild(listChild);
+                    // listChild.innerText = "";
+
+                });
+            })
+
+            setTimeout(() => {
+                tagsDiv.style.display = "none";
+            }, 20000);
+
+        } else if (tagsDiv.style.display == "block") {
+            tagsDiv.style.display = "none";
+        }
+
+    });
+
 
 }
 else {
